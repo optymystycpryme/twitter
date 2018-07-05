@@ -16,6 +16,14 @@
     <%= f.text_field :username, placeholder: "Choose your 'handle'", class: "form-control" %>
   </div>
 
+  <!--add to both devise/registrations/new.html.erb
+  and /edit.html.erb-->
+
+  <div class="form-group">
+    <strong>Upload a Profile Pic:</strong>
+    <%= f.file_field :avatar %>
+  </div>
+
   <div class="form-group">
     <%= f.label :password %>
     <% if @minimum_password_length %>
