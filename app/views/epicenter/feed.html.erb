@@ -1,12 +1,25 @@
-<h1>@<%= current_user.username %>'s Twitter Feed</h1>
-<p>Here is what your "friends" are saying:</p>
+<div class="container-fluid">
+	<h1 class="panel page-header jumbotron">@<%= current_user.username %>'s Twitter Feed</h1>
+	<h3 class="well text-center background-color: white;">Here is what your "friends" are saying:</h3>
 
 
-<div>
-  <% @following_tweets.each do |tweet| %>
-	  <div>
-		    <p>@<%= tweet.user.username %></p>
-		    <p><%= tweet.message.html_safe %></p>
-		</div>
-  <% end %>
+	<div>
+		<% @following_tweets.each do |tweet| %>
+		  <div class="well">
+		    <div class="media">
+			    <div class="media-left media-top">
+				      <%= image_tag tweet.user.avatar.url, class: "media-object well" %>
+				  </div>
+				  <div class="media-body">
+				  	<p class="well"><%= tweet.message.html_safe %></p>  
+			      <p class="btn btn-sm btn-info"><%= link_to tweet.user.name, show_user_path(id: tweet.user_id) %> 
+			      @<%= link_to tweet.user.username, show_user_path(id: tweet.user_id) %> 
+			    	  • <%= time_ago_in_words(tweet.created_at) if Time.now - tweet.created_at < 86400 %>
+			      <%= tweet.created_at.strftime('%b%e') if Time.now - tweet.created_at > 86400 %>
+			    	</p>
+			    </div>
+		    </div>
+		  </div>
+		<% end %>
+	</div>
 </div>

@@ -1,20 +1,42 @@
-<h1>@<%= @user.username %>'s Profile & Tweets</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="well jumbotron">@<%= @user.username %>'s Profile & Tweets</h1>
+      <div class="col-lg-3 well">
+        <h2><%= @user.name %></h2>
 
-<p><%= @user.name %></p>
+        <p>
+          <% if current_user.following.include?(@user.id) %>
+              <%= link_to "Following", unfollow_path(id: @user.id), class: "btn btn-primary", id: "unfollow_btn" %>
+          <% else %>
+              <% if current_user.id != @user.id %>
+            	<%= link_to "Follow", now_following_path(id: @user.id), class: "btn btn-primary" %>
+        	<% end %>
+          <% end %>
+        </p>
+      </div>  
 
-<p>
-    <% if current_user.following.include?(@user.id) %>
-        <%= link_to "Unfollow", unfollow_path(id: @user.id), class: "btn btn-danger" %>
-    <% else %>
-        <% if current_user.id != @user.id %>
-	    <%= link_to "Follow", now_following_path(id: @user.id), class: "btn btn-primary" %>
-	<% end %>
-    <% end %>
-</p>
-
-<% @user.tweets.each do |tweet| %>
-    <div>
-      <p>@<%= @user.username %></p>
-			<p><%= tweet.message %></p>
+          <% @user.tweets.each do |tweet| %>
+              <div class="col-lg-12 well">
+                <p><%= tweet.message.html_safe %></p>
+                <br>
+                <p class="btn btn-sm btn-info">@<%= @user.username %></p>
+              </div>
+          <% end %>
     </div>
-<% end %>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('#unfollow_btn').hover(function(){
+      $(this).removeClass('btn btn-primary');
+      $(this).addClass('btn btn-danger');
+      $(this).html("Unfollow");
+    }, function(){
+      $(this).html("Following");
+      $(this).removeClass('btn btn-danger');
+      $(this).addClass('btn btn-primary');
+    });
+  });
+</script>

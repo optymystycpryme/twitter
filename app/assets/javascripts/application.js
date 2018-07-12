@@ -15,3 +15,15 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+$(document).on('turbolinks:load', function() {
+	$('.unfollow_btn').hover(function() {
+		$(this).removesClass('btn-primary');
+		$(this).addClass('btn-danger');
+		$(this).html("Unfollow");
+	}, function() {
+		$(this).html("Following");
+		$(this).removesClass('btn-danger');
+		$(this).addClass('btn-primary');
+	});
+})
